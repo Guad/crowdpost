@@ -18,7 +18,7 @@ Ma[code][/code]ny comput[code][/code]er users run a modified version of the GN[c
 
 There rea[code][/code]lly is a Linux, and these peop[code][/code]le are using it, but it is just a part of the system they use. Linux is the kernel: the program in the system that allocates the machine's resources to the other programs that you run. The kernel is an essential part of an operating system, but useless by itself; it can only function in the context of a complete operating system. Linux is normally used in combination with the GNU operating system: the whole system is basically GNU with Linux added, or GNU/Linux. All the so-called Linux distributions are really distributions of GNU/Linux!
 """
-#
+# Note that the code tags are used to avoid spam detection.
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -27,7 +27,7 @@ def index():
 		return flask.redirect(flask.url_for('index')) 
     else:
     	lastFive = shotDownCriminals[:-6:-1]
-    	if not criminalList:
+    	if not criminalList: # The criminal list is empty, gotta update it.
     		updateCriminalPosts()
         	return flask.render_template('index.html', unavailable=True, interjections=lastFive)
         else:
