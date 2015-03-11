@@ -6,9 +6,11 @@
     <link rel="stylesheet" type="text/css" href="../static/skeleton.css" >
 </head>
 <body>
+    {% if unavailable %}
+        <p>Note: There are no posts available.</p>
+    {% endif %}
+    <!-- CAPTCHA INIT -->
     <form method="POST">
-        <input type="text" name="thread" placeholder="Thread ID"></input><br/>
-        <textarea name="comment" placeholder="Comment"></textarea>
         <div style="width: 302px; height: 352px;">
     	   <div style="width: 302px; height: 352px; position: relative;">
 	    	  <div style="width: 302px; height: 352px; position: absolute;">
@@ -27,5 +29,6 @@
         <br/>
         <input tabindex="6" type="submit" value="Post">
     </form>
+    <!-- CAPTCHA END -->
 </body>
 </html>
