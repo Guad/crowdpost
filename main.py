@@ -2,7 +2,7 @@ import flask
 import requests
 import re
 
-from string import ascii_lowercase
+from string import ascii_lowercase, ascii_uppercase
 from random import choice
 from threading import Timer
 
@@ -13,11 +13,11 @@ criminalList = []
 shotDownCriminals = []
 
 interjection = r"""
-I'd just like to interject for moment. What you're refering to as Linux, is in fact, GNU/Linux, or as I've recently taken to calling it, GNU plus Linux. Linux is not an operating system unto itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
+I'd jus[code][/code]t like to inte[code][/code]rject for moment. What you're refer[code][/code]ing to as Linux, is in fact, GNU/[code][/code]Linux, or as I've recently taken to call[code][/code]ing it, GNU pl[code][/code]us Linux. Linux is not an operating system unto itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell util[code][/code]ities and vital system components comprising a full OS as defined by POSIX.
 
-Many computer users run a modified version of the GNU system every day, without realizing it. Through a peculiar turn of events, the version of GNU which is widely used today is often called Linux, and many of its users are not aware that it is basically the GNU system, developed by the GNU Project.
+Ma[code][/code]ny comput[code][/code]er users run a modified version of the GN[code][/code]U system ev[code][/code]ery day, without realizing it. Through a peculiar turn of events, the version of GNU which is widely used today is often called Linux, and many of its users are not aware that it is basically the GNU system, developed by the GNU Project.
 
-There really is a Linux, and these people are using it, but it is just a part of the system they use. Linux is the kernel: the program in the system that allocates the machine's resources to the other programs that you run. The kernel is an essential part of an operating system, but useless by itself; it can only function in the context of a complete operating system. Linux is normally used in combination with the GNU operating system: the whole system is basically GNU with Linux added, or GNU/Linux. All the so-called Linux distributions are really distributions of GNU/Linux!
+There rea[code][/code]lly is a Linux, and these peop[code][/code]le are using it, but it is just a part of the system they use. Linux is the kernel: the program in the system that allocates the machine's resources to the other programs that you run. The kernel is an essential part of an operating system, but useless by itself; it can only function in the context of a complete operating system. Linux is normally used in combination with the GNU operating system: the whole system is basically GNU with Linux added, or GNU/Linux. All the so-called Linux distributions are really distributions of GNU/Linux!
 """
 #
 
@@ -27,14 +27,15 @@ def index():
     		arrestCriminal(flask.request.form['g-recaptcha-response'])
 		return flask.redirect(flask.url_for('index')) 
     else:
+    	lastFive = shotDownCriminals[:-6:-1]
     	if not criminalList:
-        	return flask.render_template('index.html', unavailable=True)
+        	return flask.render_template('index.html', unavailable=True, interjections=lastFive)
         else:
-        	return flask.render_template('index.html')
+        	return flask.render_template('index.html', interjections=lastFive)
 
 def getRandomPassword(length):
 	alphanumeric = ascii_lowercase
-	alphanumeric += choice.upper()
+	alphanumeric += ascii_uppercase
 	alphanumeric += '0123456789'
 	output = ''
 	for n in range(length):
@@ -88,7 +89,7 @@ def scanBoardForPosts(board):
 				pass
 	return detectedPosts
 
-def createPost(board, threadid, message, captcha, debug=False):
+def createPost(board, threadid, message, captcha):
 	url = 'https://sys.4chan.org/%s/post'  % board
 	form = {
 		'MAX_FILE_SIZE':'4194304',
@@ -102,9 +103,8 @@ def createPost(board, threadid, message, captcha, debug=False):
 		'g-recaptcha-response': str(captcha)
 	}
 
-
 	req = requests.post(url, data=form)
-	if debug:
+	if app.debug:
 		print '[REQUEST DEBUG] STATUS CODE: ', str(req.status_code)
 		print '[REQUEST DEBUG] HEADERS: ', str(req.headers)
 		with open('debug.html', 'w') as file:
@@ -129,13 +129,13 @@ def arrestCriminal(captcha):
 	except KeyError:
 		return False
 	criminalList.pop(0)
-	post = '>>%s' % str(post['id'])
+	post = '>>%s' % str(ourCriminal['id'])
 	post += '\n'
 	post += interjection
 	createPost('g', ourCriminal['op'], post, captcha)
 	shotDownCriminals.append(ourCriminal)
-	print 'Criminal %s in thread %s has been arrested!' % (post['id'], post['op'])
+	print 'Criminal %s in thread %s has been arrested!' % (ourCriminal['id'], ourCriminal['op'])
 
 if __name__ == '__main__':
     #app.debug = True
-    app.run(port=8080, host='0.0.0.0') 
+    app.run(port=8080, host='0.0.0.0', use_reloader=False) 

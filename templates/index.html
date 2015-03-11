@@ -4,31 +4,64 @@
     <meta charset="UTF-8">
     <title>Crowdsourced Shitposting</title>
     <link rel="stylesheet" type="text/css" href="../static/skeleton.css" >
+    <style>
+    .error {
+        color: red;
+    }
+    .subtitle {
+        font-size: 130%;
+    }
+    h1 {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .quotelink {
+        color: #D00;
+        text-decoration: underline;
+    }
+    </style>
 </head>
 <body>
-    {% if unavailable %}
-        <p>Note: There are no posts available.</p>
-    {% endif %}
-    <!-- CAPTCHA INIT -->
-    <form method="POST">
-        <div style="width: 302px; height: 352px;">
-    	   <div style="width: 302px; height: 352px; position: relative;">
-	    	  <div style="width: 302px; height: 352px; position: absolute;">
-        		  <iframe frameborder="0" scrolling="no"
-            		  src="https://www.google.com/recaptcha/api/fallback?k=6Ldp2bsSAAAAAAJ5uyx_lx34lJeEpTLVkP5k04qc"
-            		  style="width: 302px; height:352px; border-style: none;">
-        		  </iframe>
-        	   </div>
-    	
-        	   <div style="width: 250px; height: 80px; position: absolute; border-style: none; bottom: 21px; left: 25px; margin: 0px; padding: 0px; right: 25px;">
-        		  <textarea class="g-recaptcha-response" id="g-recaptcha-response" name=
-            		  "g-recaptcha-response" style= "width: 250px; height: 80px; border: 1px solid #c1c1c1; margin: 0px; padding: 0px; resize: none;"></textarea>
-        	   </div>
-    	   </div>
-    	</div>
-        <br/>
-        <input tabindex="6" type="submit" value="Post">
-    </form>
-    <!-- CAPTCHA END -->
+    <div class="container">
+        <center>
+            <h1>Crowdsourced Interjecting</h1><br/>
+            <p class="subtitle">Interject on /g/ by filling in captchas.</p>
+        {% if unavailable %}
+            <div class="row">
+                <p class="error">Note: There are no posts available.</p>
+            </div>
+        {% endif %}
+        <!-- CAPTCHA INIT -->
+        
+            <form method="POST">
+                <input tabindex="6" type="submit" value="Interject">
+                <br/>
+                <div style="width: 302px; height: 352px;">
+        	        <div style="width: 302px; height: 352px; position: relative;">
+	       	           <div style="width: 302px; height: 352px; position: absolute;">
+            		      <iframe frameborder="0" scrolling="no"
+                		      src="https://www.google.com/recaptcha/api/fallback?k=6Ldp2bsSAAAAAAJ5uyx_lx34lJeEpTLVkP5k04qc"
+                		      style="width: 302px; height:352px; border-style: none;">
+            		      </iframe>
+            	       </div>
+            	    <div style="width: 250px; height: 80px; position: absolute; border-style: none; bottom: 21px; left: 25px;   margin: 0px; padding: 0px; right: 25px;">
+            	       	  <textarea class="g-recaptcha-response" id="g-recaptcha-response" name=
+                		  "g-recaptcha-response" style= "width: 250px; height: 80px; border: 1px solid #c1c1c1; margin: 0px;  padding: 0px; resize: none;"></textarea>
+                	</div>
+            	   </div>
+            	</div>
+            </form>
+            <!-- CAPTCHA END -->
+            <hr/>
+            <h3>Last interjections</h3>
+            <!-- todo -->
+            {% if interjections %}
+                {% for int in interjections %}
+                <p>Post <a class="quotelink" href="http://boards.4chan.org/g/thread/{{int.op}}#p{{int.id}}">>>{{int.id}}</a> in thread <a class="quotelink" href="http://boards.4chan.org/g/thread/{{int.op}}">>>{{int.op}}</a></p>
+                {% endfor %}
+            {% endif %}
+        </center>
+    </div>
 </body>
 </html>
