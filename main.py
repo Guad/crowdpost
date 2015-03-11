@@ -4,7 +4,6 @@ import re
 
 from string import ascii_lowercase, ascii_uppercase
 from random import choice
-from threading import Timer
 
 app = flask.Flask(__name__) 
 
@@ -29,6 +28,7 @@ def index():
     else:
     	lastFive = shotDownCriminals[:-6:-1]
     	if not criminalList:
+    		updateCriminalPosts()
         	return flask.render_template('index.html', unavailable=True, interjections=lastFive)
         else:
         	return flask.render_template('index.html', interjections=lastFive)
@@ -118,8 +118,6 @@ def updateCriminalPosts():
 		if not post in criminalList and not post in shotDownCriminals:
 			criminalList.append(post)
 	print 'Criminals updated.'
-	Timer(1800, updateCriminalPosts, ()).start()
-Timer(3, updateCriminalPosts, ()).start()
 
 def arrestCriminal(captcha):
 	global criminalList
