@@ -15,10 +15,13 @@
         padding: 0px;
         margin: 0px;
     }
-
     .quotelink {
         color: #D00;
         text-decoration: underline;
+    }
+    .subtle {
+        color: grey;
+        font-size: 60%;
     }
     </style>
 </head>
@@ -37,8 +40,22 @@
             <form method="POST">
                 <input tabindex="6" type="submit" value="Interject">
                 <br/>
-            	<textarea class="g-recaptcha-response" id="g-recaptcha-response" name="g-recaptcha-response" style= "width: 250px; height: 80px; border: 1px solid #c1c1c1; margin: 0px;  padding: 0px; resize: none;"></textarea>
+            	<div style="width: 302px; height: 352px;">
+                    <div style="width: 302px; height: 352px; position: relative;">
+                       <div style="width: 302px; height: 352px; position: absolute;">
+                          <iframe frameborder="0" scrolling="no"
+                              src="https://www.google.com/recaptcha/api/fallback?k=6Ldp2bsSAAAAAAJ5uyx_lx34lJeEpTLVkP5k04qc"
+                              style="width: 302px; height:352px; border-style: none;">
+                          </iframe>
+                       </div>
+                    <div style="width: 250px; height: 80px; position: absolute; border-style: none; bottom: 21px; left: 25px;   margin: 0px; padding: 0px; right: 25px;">
+                          <textarea class="g-recaptcha-response" id="g-recaptcha-response" name=
+                          "g-recaptcha-response" style= "width: 250px; height: 80px; border: 1px solid #c1c1c1; margin: 0px;  padding: 0px; resize: none;"></textarea>
+                    </div>
+                   </div>
+                </div>
             </form>
+            <p class="subtle">Note: There is a bug where the captcha does not load. If this happens, please click <a href="https://www.google.com/recaptcha/api/fallback?k=6Ldp2bsSAAAAAAJ5uyx_lx34lJeEpTLVkP5k04qc">here</a> to get get the captcha and paste it in the box above.</p>
             <!-- CAPTCHA END -->
             <hr/>
             <h3>Last interjections</h3>
