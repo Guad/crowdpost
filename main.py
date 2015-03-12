@@ -12,7 +12,6 @@ app = flask.Flask(__name__)
 # Globals
 criminalList = []
 shotDownCriminals = []
-
 interjection = r"""
 I'd jus[code][/code]t like to inte[code][/code]rject for moment. What you're refer[code][/code]ing to as Linux, is in fact, GNU/[code][/code]Linux, or as I've recently taken to call[code][/code]ing it, GNU pl[code][/code]us Linux. Linux is not an operating system unto itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell util[code][/code]ities and vital system components comprising a full OS as defined by POSIX.
 
