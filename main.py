@@ -1,9 +1,11 @@
-import flask
 import requests
+import flask
 import re
 
 from string import ascii_lowercase, ascii_uppercase
+from waitress import serve
 from random import choice
+from os import environ
 
 app = flask.Flask(__name__) 
 
@@ -136,4 +138,5 @@ def arrestCriminal(captcha):
 
 if __name__ == '__main__':
     #app.debug = True
-    app.run(port=8080, host='0.0.0.0', use_reloader=False) 
+    serve(app, port=int(environ['PORT']))
+    #app.run(port=8080, host='0.0.0.0', use_reloader=False) 
