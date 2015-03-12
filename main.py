@@ -1,16 +1,19 @@
-import flask
 import requests
+import flask
 import re
 
 from string import ascii_lowercase, ascii_uppercase
+from threading import Timer
+from waitress import serve
 from random import choice
+from os import environ
 
 app = flask.Flask(__name__) 
 
 # Globals
 criminalList = []
 shotDownCriminals = []
-
+updateInProgress = False
 interjection = r"""
 I'd jus[code][/code]t like to inte[code][/code]rject for moment. What you're refer[code][/code]ing to as Linux, is in fact, GNU/[code][/code]Linux, or as I've recently taken to call[code][/code]ing it, GNU pl[code][/code]us Linux. Linux is not an operating system unto itself, but rather another free component of a fully functioning GNU system made useful by the GNU corelibs, shell util[code][/code]ities and vital system components comprising a full OS as defined by POSIX.
 
@@ -28,7 +31,8 @@ def index():
     else:
     	lastFive = shotDownCriminals[:-6:-1]
     	if not criminalList: # The criminal list is empty, gotta update it.
-    		updateCriminalPosts()
+    		if not updateInProgress:
+    			Timer(0, updateCriminalPosts, ()).start()
         	return flask.render_template('index.html', unavailable=True, interjections=lastFive)
         else:
         	return flask.render_template('index.html', interjections=lastFive)
@@ -113,11 +117,14 @@ def createPost(board, threadid, message, captcha):
 def updateCriminalPosts():
 	global criminalList
 	global shotDownCriminals
+	global updateInProgress
+	updateInProgress = True
 	tempPosts = scanBoardForPosts('g')
 	for post in tempPosts:
 		if not post in criminalList and not post in shotDownCriminals:
 			criminalList.append(post)
 	print 'Criminals updated.'
+	updateInProgress = False
 
 def arrestCriminal(captcha):
 	global criminalList
@@ -136,4 +143,5 @@ def arrestCriminal(captcha):
 
 if __name__ == '__main__':
     #app.debug = True
-    app.run(port=8080, host='0.0.0.0', use_reloader=False) 
+    serve(app, port=int(environ['PORT']))
+    #app.run(port=8080, host='0.0.0.0', use_reloader=False) 
