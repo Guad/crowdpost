@@ -143,6 +143,6 @@ def arrestCriminal(captcha):
 
 if __name__ == '__main__':
     #app.debug = True
-    print 'Starting app . . .'
-    serve(app, port=int(environ['PORT']))
-    #app.run(port=8080, host='0.0.0.0', use_reloader=False) 
+    app.run(port=8080, host='0.0.0.0', use_reloader=False) 
+else:
+	serve(app, port=int(environ['PORT']))
