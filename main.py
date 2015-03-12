@@ -136,6 +136,6 @@ def arrestCriminal(captcha):
 	print 'Criminal %s in thread %s has been arrested!' % (ourCriminal['id'], ourCriminal['op'])
 
 if __name__ == '__main__':
-    #app.debug = True
+    app.debug = True
     serve(app, port=int(environ['PORT']))
     #app.run(port=8080, host='0.0.0.0', use_reloader=False) 
